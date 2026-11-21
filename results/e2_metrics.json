@@ -1,0 +1,59 @@
+{
+  "experiment": "E2_electricity_10min",
+  "n": 204806,
+  "span": [
+    "2006-12-17 17:20:00",
+    "2010-11-26 21:00:00"
+  ],
+  "alpha": 0.1,
+  "gamma": 0.01,
+  "window": 2000,
+  "predictor": "ridge(lambda=10) on lags+calendar+rolling features",
+  "scp": {
+    "mean_coverage": 0.9003141122666537,
+    "target": 0.9,
+    "coverage_gap": 0.00031411226665367664,
+    "mean_width": 3.14067162677928,
+    "rolling_min": 0.8380000000000006,
+    "rolling_max": 0.9350000000000007,
+    "winkler_score": 4.208478544411568,
+    "coverage_gap_regret": 666.2990000000092,
+    "coverage_by_third": [
+      0.9073775694546165,
+      0.9038621161076119,
+      0.8897026512377325
+    ]
+  },
+  "aci": {
+    "mean_coverage": 0.9000048825740931,
+    "target": 0.9,
+    "coverage_gap": 4.8825740930347195e-06,
+    "mean_width": 1.58413991287991,
+    "rolling_min": 0.8870000000000007,
+    "rolling_max": 0.9140000000000007,
+    "winkler_score": 4.214502817005363,
+    "coverage_gap_regret": 95.97950000000363,
+    "coverage_by_third": [
+      0.9001025340559543,
+      0.8997119281285093,
+      0.9002001855378156
+    ]
+  },
+  "dtaci": {
+    "mean_coverage": 0.8992399459661801,
+    "target": 0.9,
+    "coverage_gap": 0.0007600540338199568,
+    "mean_width": 1.5580050322681618,
+    "rolling_min": 0.8670000000000007,
+    "rolling_max": 0.9320000000000007
+  },
+  "dt": {
+    "winkler_score": 4.207248216778274,
+    "coverage_gap_regret": 301.2889999999969,
+    "coverage_by_third": [
+      0.8973682925638397,
+      0.8989795420145501,
+      0.9013720033201503
+    ]
+  }
+}

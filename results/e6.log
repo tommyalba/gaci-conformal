@@ -1,0 +1,6 @@
+series: 204950 points
+train=122883 cal=20480 stream=61443
+[hour_band] k=4 ACI worst=0.865 GACI worst=0.900 w=3.199
+[day_type] k=2 ACI worst=0.894 GACI worst=0.900 w=3.168
+[month] k=12 ACI worst=0.899 GACI worst=0.899 w=3.181
+WROTE /home/gontommuhammad/projects/aci-reproduction/results/e6_metrics.json

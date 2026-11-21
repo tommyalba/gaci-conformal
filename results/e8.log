@@ -1,0 +1,7 @@
+E4 frame: 466285 rows
+[E4 lgb] ACI worst=0.300 GACI worst=0.890
+E6 series: 204806
+[E6 lgb hour_band] ACI worst=0.862 GACI worst=0.900
+[E6 lgb day_type] ACI worst=0.891 GACI worst=0.900
+[E6 lgb month] ACI worst=0.897 GACI worst=0.898
+WROTE /home/gontommuhammad/projects/aci-reproduction/results/e8_metrics.json

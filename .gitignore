@@ -1,0 +1,16 @@
+# Raw datasets (public; download instructions in README)
+data/
+# Third-party reference code clones (licenses retained upstream)
+ref-*/
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+# OS/editor
+.DS_Store
+# Internal working documents (kept locally, not for publication)
+PLAN.md
+MANUSCRIPT.md
+TMLR.md
+.planning/

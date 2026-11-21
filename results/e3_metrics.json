@@ -1,0 +1,59 @@
+{
+  "experiment": "E3_lending_club_int_rate",
+  "n": 200000,
+  "span": [
+    "2007-06-01",
+    "2014-12-01"
+  ],
+  "alpha": 0.1,
+  "gamma": 0.01,
+  "window": 5000,
+  "predictor": "ridge(lambda=10) on standardized numeric + one-hot categoricals",
+  "scp": {
+    "mean_coverage": 0.8651285714285715,
+    "target": 0.9,
+    "coverage_gap": 0.03487142857142855,
+    "mean_width": 0.1029780769678763,
+    "rolling_min": 0.8120000000000006,
+    "rolling_max": 0.9180000000000007,
+    "winkler_score": 0.14690668701747733,
+    "coverage_gap_regret": 2469.9389999999694,
+    "coverage_by_third": [
+      0.8985171852232793,
+      0.8580979728281832,
+      0.8387691252732182
+    ]
+  },
+  "aci": {
+    "mean_coverage": 0.9000571428571429,
+    "target": 0.9,
+    "coverage_gap": 5.714285714286671e-05,
+    "mean_width": 0.05654799407487315,
+    "rolling_min": 0.8930000000000007,
+    "rolling_max": 0.9060000000000007,
+    "winkler_score": 0.14516648300225157,
+    "coverage_gap_regret": 91.75700000000589,
+    "coverage_by_third": [
+      0.8999314305305562,
+      0.9000557150816441,
+      0.9001842883469764
+    ]
+  },
+  "dtaci": {
+    "mean_coverage": 0.8991857142857143,
+    "target": 0.9,
+    "coverage_gap": 0.0008142857142857673,
+    "mean_width": 0.05615330688814981,
+    "rolling_min": 0.8635000000000006,
+    "rolling_max": 0.9220000000000007
+  },
+  "dt": {
+    "winkler_score": 0.144567833291875,
+    "coverage_gap_regret": 558.3614999999994,
+    "coverage_by_third": [
+      0.8970600839976001,
+      0.9012985899798569,
+      0.8991985599794283
+    ]
+  }
+}

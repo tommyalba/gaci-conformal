@@ -1,0 +1,877 @@
+{
+  "experiment": "E5_gaci_robustness",
+  "n": 200000,
+  "alpha": 0.1,
+  "gamma": 0.01,
+  "window": 5000,
+  "groupings": {
+    "grade": {
+      "grouping": "grade",
+      "k_groups": 7,
+      "scp": {
+        "marginal_coverage": 0.8651285714285715,
+        "mean_width": 0.1029780769678763
+      },
+      "aci": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.05654799407487315,
+        "worst_group_coverage": 0.22968197879858657,
+        "per_group_coverage": {
+          "A": 0.845271178843568,
+          "B": 0.9288787083077267,
+          "C": 0.9717381305258854,
+          "D": 0.9461424216368326,
+          "E": 0.813771772749471,
+          "F": 0.3740010655301012,
+          "G": 0.22968197879858657
+        }
+      },
+      "gaci": {
+        "marginal_coverage": 0.9000142857142858,
+        "mean_width": 0.10709444021504065,
+        "worst_group_coverage": 0.892226148409894,
+        "per_group": {
+          "A": {
+            "n": 11155,
+            "coverage": 0.9004034065441506,
+            "mean_width": 0.1258466684488907
+          },
+          "B": {
+            "n": 17899,
+            "coverage": 0.8997709369238505,
+            "mean_width": 0.10316460344162691
+          },
+          "C": {
+            "n": 19567,
+            "coverage": 0.9000357745183216,
+            "mean_width": 0.08535471572883546
+          },
+          "D": {
+            "n": 12793,
+            "coverage": 0.8997107793324475,
+            "mean_width": 0.09506463617295732
+          },
+          "E": {
+            "n": 6143,
+            "coverage": 0.9005371968093765,
+            "mean_width": 0.13924610258853906
+          },
+          "F": {
+            "n": 1877,
+            "coverage": 0.9025039957378796,
+            "mean_width": 0.20618286978066605
+          },
+          "G": {
+            "n": 566,
+            "coverage": 0.892226148409894,
+            "mean_width": 0.20769668462423374
+          }
+        }
+      },
+      "gaci_pooled": {
+        "marginal_coverage": 0.8994,
+        "mean_width": 0.10720559542459655,
+        "worst_group_coverage": 0.8692579505300353,
+        "per_group": {
+          "A": {
+            "n": 11155,
+            "coverage": 0.9001344688480502,
+            "mean_width": 0.1259491072121041
+          },
+          "B": {
+            "n": 17899,
+            "coverage": 0.8998268059668137,
+            "mean_width": 0.10302191207841808
+          },
+          "C": {
+            "n": 19567,
+            "coverage": 0.9006490519752645,
+            "mean_width": 0.08535929846569147
+          },
+          "D": {
+            "n": 12793,
+            "coverage": 0.9004924568123193,
+            "mean_width": 0.095331419100438
+          },
+          "E": {
+            "n": 6143,
+            "coverage": 0.8997232622497151,
+            "mean_width": 0.13884604709785003
+          },
+          "F": {
+            "n": 1877,
+            "coverage": 0.878529568460309,
+            "mean_width": 0.20963954090396997
+          },
+          "G": {
+            "n": 566,
+            "coverage": 0.8692579505300353,
+            "mean_width": 0.2106276700533564
+          }
+        }
+      }
+    },
+    "purpose": {
+      "grouping": "purpose",
+      "k_groups": 9,
+      "scp": {
+        "marginal_coverage": 0.8651285714285715,
+        "mean_width": 0.1029780769678763
+      },
+      "aci": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.05654799407487315,
+        "worst_group_coverage": 0.7726432532347505,
+        "per_group_coverage": {
+          "OTHER": 0.7726432532347505,
+          "car": 0.8548672566371681,
+          "credit_card": 0.906011960969468,
+          "debt_consolidation": 0.9062107758821069,
+          "home_improvement": 0.898287493513233,
+          "major_purchase": 0.8859878154917319,
+          "medical": 0.8616352201257862,
+          "other": 0.867739898989899,
+          "small_business": 0.8278560250391236
+        }
+      },
+      "gaci": {
+        "marginal_coverage": 0.9002857142857142,
+        "mean_width": 0.11369877317537892,
+        "worst_group_coverage": 0.8990426457789382,
+        "per_group": {
+          "OTHER": {
+            "n": 1082,
+            "coverage": 0.910351201478743,
+            "mean_width": 0.1618131033765835
+          },
+          "car": {
+            "n": 565,
+            "coverage": 0.9026548672566371,
+            "mean_width": 0.1374537530945987
+          },
+          "credit_card": {
+            "n": 15885,
+            "coverage": 0.9002203336480957,
+            "mean_width": 0.11090215826133436
+          },
+          "debt_consolidation": {
+            "n": 43022,
+            "coverage": 0.9000046487843429,
+            "mean_width": 0.11133221864896402
+          },
+          "home_improvement": {
+            "n": 3854,
+            "coverage": 0.8993253762324858,
+            "mean_width": 0.1140805360611725
+          },
+          "major_purchase": {
+            "n": 1149,
+            "coverage": 0.8990426457789382,
+            "mean_width": 0.12351819545121874
+          },
+          "medical": {
+            "n": 636,
+            "coverage": 0.9025157232704403,
+            "mean_width": 0.12693830438561818
+          },
+          "other": {
+            "n": 3168,
+            "coverage": 0.9002525252525253,
+            "mean_width": 0.125953542179402
+          },
+          "small_business": {
+            "n": 639,
+            "coverage": 0.9076682316118936,
+            "mean_width": 0.14618639039245462
+          }
+        }
+      },
+      "gaci_pooled": {
+        "marginal_coverage": 0.8999428571428572,
+        "mean_width": 0.11354924572342061,
+        "worst_group_coverage": 0.897302001740644,
+        "per_group": {
+          "OTHER": {
+            "n": 1082,
+            "coverage": 0.8974121996303143,
+            "mean_width": 0.16027023853994343
+          },
+          "car": {
+            "n": 565,
+            "coverage": 0.8991150442477877,
+            "mean_width": 0.12530056738698805
+          },
+          "credit_card": {
+            "n": 15885,
+            "coverage": 0.9002832861189801,
+            "mean_width": 0.11104001886932705
+          },
+          "debt_consolidation": {
+            "n": 43022,
+            "coverage": 0.9000278927060573,
+            "mean_width": 0.11135444456944674
+          },
+          "home_improvement": {
+            "n": 3854,
+            "coverage": 0.8998443175921121,
+            "mean_width": 0.1143503693649016
+          },
+          "major_purchase": {
+            "n": 1149,
+            "coverage": 0.897302001740644,
+            "mean_width": 0.12275977581790594
+          },
+          "medical": {
+            "n": 636,
+            "coverage": 0.89937106918239,
+            "mean_width": 0.12732152213172826
+          },
+          "other": {
+            "n": 3168,
+            "coverage": 0.8996212121212122,
+            "mean_width": 0.12551216861355263
+          },
+          "small_business": {
+            "n": 639,
+            "coverage": 0.8982785602503912,
+            "mean_width": 0.1397840747558056
+          }
+        }
+      }
+    },
+    "term": {
+      "grouping": "term",
+      "k_groups": 2,
+      "scp": {
+        "marginal_coverage": 0.8651285714285715,
+        "mean_width": 0.1029780769678763
+      },
+      "aci": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.05654799407487315,
+        "worst_group_coverage": 0.8824503311258278,
+        "per_group_coverage": {
+          "36 months": 0.9083144464030891,
+          "60 months": 0.8824503311258278
+        }
+      },
+      "gaci": {
+        "marginal_coverage": 0.9000142857142858,
+        "mean_width": 0.1130080909242087,
+        "worst_group_coverage": 0.8999910506533023,
+        "per_group": {
+          "36 months": {
+            "n": 47652,
+            "coverage": 0.900025182573659,
+            "mean_width": 0.11047226136451513
+          },
+          "60 months": {
+            "n": 22348,
+            "coverage": 0.8999910506533023,
+            "mean_width": 0.11841516762809803
+          }
+        }
+      },
+      "gaci_pooled": {
+        "marginal_coverage": 0.9000428571428571,
+        "mean_width": 0.11287074891555383,
+        "worst_group_coverage": 0.8999015571863254,
+        "per_group": {
+          "36 months": {
+            "n": 47652,
+            "coverage": 0.9001091244858558,
+            "mean_width": 0.11035082092419352
+          },
+          "60 months": {
+            "n": 22348,
+            "coverage": 0.8999015571863254,
+            "mean_width": 0.11824391916095849
+          }
+        }
+      }
+    },
+    "home_ownership": {
+      "grouping": "home_ownership",
+      "k_groups": 3,
+      "scp": {
+        "marginal_coverage": 0.8651285714285715,
+        "mean_width": 0.1029780769678763
+      },
+      "aci": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.05654799407487315,
+        "worst_group_coverage": 0.8854593329432416,
+        "per_group_coverage": {
+          "MORTGAGE": 0.9099558467454778,
+          "OWN": 0.8854593329432416,
+          "RENT": 0.8912291956235077
+        }
+      },
+      "gaci": {
+        "marginal_coverage": 0.8999714285714285,
+        "mean_width": 0.1130649240911684,
+        "worst_group_coverage": 0.8993563487419544,
+        "per_group": {
+          "MORTGAGE": {
+            "n": 35105,
+            "coverage": 0.9000142429853297,
+            "mean_width": 0.10985616981784073
+          },
+          "OWN": {
+            "n": 6836,
+            "coverage": 0.8993563487419544,
+            "mean_width": 0.1175830044753008
+          },
+          "RENT": {
+            "n": 28059,
+            "coverage": 0.900067714458819,
+            "mean_width": 0.11597870295924063
+          }
+        }
+      },
+      "gaci_pooled": {
+        "marginal_coverage": 0.9000142857142858,
+        "mean_width": 0.11315195200599347,
+        "worst_group_coverage": 0.8995026331187829,
+        "per_group": {
+          "MORTGAGE": {
+            "n": 35105,
+            "coverage": 0.9000427289559891,
+            "mean_width": 0.10978474978413606
+          },
+          "OWN": {
+            "n": 6836,
+            "coverage": 0.8995026331187829,
+            "mean_width": 0.11784693668680946
+          },
+          "RENT": {
+            "n": 28059,
+            "coverage": 0.900103353647671,
+            "mean_width": 0.11622086817265109
+          }
+        }
+      }
+    },
+    "issue_year": {
+      "grouping": "issue_year",
+      "k_groups": 1,
+      "scp": {
+        "marginal_coverage": 0.8651285714285715,
+        "mean_width": 0.1029780769678763
+      },
+      "aci": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.05654799407487315,
+        "worst_group_coverage": 0.9000571428571429,
+        "per_group_coverage": {
+          "2014": 0.9000571428571429
+        }
+      },
+      "gaci": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.1130959881497463,
+        "worst_group_coverage": 0.9000571428571429,
+        "per_group": {
+          "2014": {
+            "n": 70000,
+            "coverage": 0.9000571428571429,
+            "mean_width": 0.1130959881497463
+          }
+        }
+      },
+      "gaci_pooled": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.1130959881497463,
+        "worst_group_coverage": 0.9000571428571429,
+        "per_group": {
+          "2014": {
+            "n": 70000,
+            "coverage": 0.9000571428571429,
+            "mean_width": 0.1130959881497463
+          }
+        }
+      }
+    },
+    "stream_era": {
+      "grouping": "stream_era",
+      "k_groups": 3,
+      "scp": {
+        "marginal_coverage": 0.8651285714285715,
+        "mean_width": 0.1029780769678763
+      },
+      "aci": {
+        "marginal_coverage": 0.9000571428571429,
+        "mean_width": 0.05654799407487315,
+        "worst_group_coverage": 0.9000571428571429,
+        "per_group_coverage": {
+          "early": 0.9000571428571429,
+          "late": 0.9000571428571429
+        }
+      },
+      "gaci": {
+        "marginal_coverage": 0.9000857142857143,
+        "mean_width": 0.11321132539585124,
+        "worst_group_coverage": 0.9000571428571429,
+        "per_group": {
+          "early": {
+            "n": 35000,
+            "coverage": 0.9000571428571429,
+            "mean_width": 0.1071752089668435
+          },
+          "late": {
+            "n": 35000,
+            "coverage": 0.9001142857142858,
+            "mean_width": 0.119247441824859
+          }
+        }
+      },
+      "gaci_pooled": {
+        "marginal_coverage": 0.9000857142857143,
+        "mean_width": 0.11309951136853133,
+        "worst_group_coverage": 0.9000571428571429,
+        "per_group": {
+          "early": {
+            "n": 35000,
+            "coverage": 0.9000571428571429,
+            "mean_width": 0.10705759560603148
+          },
+          "late": {
+            "n": 35000,
+            "coverage": 0.9001142857142858,
+            "mean_width": 0.11914142713103117
+          }
+        }
+      }
+    }
+  },
+  "sensitivity_grid": [
+    {
+      "alpha": 0.05,
+      "gamma": 0.005,
+      "window": 2000,
+      "marginal_coverage": 0.9496857142857142,
+      "mean_width": 0.12486903222498624,
+      "worst_group_coverage": 0.924901185770751
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.005,
+      "window": 5000,
+      "marginal_coverage": 0.9496,
+      "mean_width": 0.12476014430037569,
+      "worst_group_coverage": 0.924901185770751
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.005,
+      "window": 20000,
+      "marginal_coverage": 0.9494,
+      "mean_width": 0.12519925887336555,
+      "worst_group_coverage": 0.924901185770751
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.01,
+      "window": 2000,
+      "marginal_coverage": 0.9497428571428571,
+      "mean_width": 0.12539634172443329,
+      "worst_group_coverage": 0.924901185770751
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.01,
+      "window": 5000,
+      "marginal_coverage": 0.9496285714285714,
+      "mean_width": 0.1259823507343928,
+      "worst_group_coverage": 0.924901185770751
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.01,
+      "window": 20000,
+      "marginal_coverage": 0.9492285714285714,
+      "mean_width": 0.12706579273401783,
+      "worst_group_coverage": 0.924901185770751
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.02,
+      "window": 2000,
+      "marginal_coverage": 0.9492857142857143,
+      "mean_width": 0.12665389740509847,
+      "worst_group_coverage": 0.9169960474308301
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.02,
+      "window": 5000,
+      "marginal_coverage": 0.9488,
+      "mean_width": 0.12671007621252423,
+      "worst_group_coverage": 0.9169960474308301
+    },
+    {
+      "alpha": 0.05,
+      "gamma": 0.02,
+      "window": 20000,
+      "marginal_coverage": 0.9476571428571429,
+      "mean_width": 0.12998723877791216,
+      "worst_group_coverage": 0.9169960474308301
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.005,
+      "window": 2000,
+      "marginal_coverage": 0.8999428571428572,
+      "mean_width": 0.1073993908780583,
+      "worst_group_coverage": 0.8853754940711462
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.005,
+      "window": 5000,
+      "marginal_coverage": 0.8997714285714286,
+      "mean_width": 0.10724295843583596,
+      "worst_group_coverage": 0.8853754940711462
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.005,
+      "window": 20000,
+      "marginal_coverage": 0.8994571428571428,
+      "mean_width": 0.10715709175551448,
+      "worst_group_coverage": 0.8853754940711462
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.01,
+      "window": 2000,
+      "marginal_coverage": 0.9,
+      "mean_width": 0.10749424044197806,
+      "worst_group_coverage": 0.8893280632411067
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.01,
+      "window": 5000,
+      "marginal_coverage": 0.8999142857142857,
+      "mean_width": 0.10748582231686944,
+      "worst_group_coverage": 0.8893280632411067
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.01,
+      "window": 20000,
+      "marginal_coverage": 0.8997428571428572,
+      "mean_width": 0.10754241534380266,
+      "worst_group_coverage": 0.8893280632411067
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.02,
+      "window": 2000,
+      "marginal_coverage": 0.9,
+      "mean_width": 0.10795866936140797,
+      "worst_group_coverage": 0.8893280632411067
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.02,
+      "window": 5000,
+      "marginal_coverage": 0.8998285714285714,
+      "mean_width": 0.10834704898217666,
+      "worst_group_coverage": 0.8893280632411067
+    },
+    {
+      "alpha": 0.1,
+      "gamma": 0.02,
+      "window": 20000,
+      "marginal_coverage": 0.8994,
+      "mean_width": 0.10966669909044231,
+      "worst_group_coverage": 0.8893280632411067
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.005,
+      "window": 2000,
+      "marginal_coverage": 0.7998571428571428,
+      "mean_width": 0.08616023563083898,
+      "worst_group_coverage": 0.782608695652174
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.005,
+      "window": 5000,
+      "marginal_coverage": 0.7996571428571428,
+      "mean_width": 0.08615722549930632,
+      "worst_group_coverage": 0.782608695652174
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.005,
+      "window": 20000,
+      "marginal_coverage": 0.799,
+      "mean_width": 0.08599587037679372,
+      "worst_group_coverage": 0.782608695652174
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.01,
+      "window": 2000,
+      "marginal_coverage": 0.8000857142857143,
+      "mean_width": 0.08630560769080839,
+      "worst_group_coverage": 0.7905138339920948
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.01,
+      "window": 5000,
+      "marginal_coverage": 0.8,
+      "mean_width": 0.08633253251303877,
+      "worst_group_coverage": 0.7905138339920948
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.01,
+      "window": 20000,
+      "marginal_coverage": 0.7997142857142857,
+      "mean_width": 0.08620389361613479,
+      "worst_group_coverage": 0.7905138339920948
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.02,
+      "window": 2000,
+      "marginal_coverage": 0.8002,
+      "mean_width": 0.08653739793853647,
+      "worst_group_coverage": 0.7944664031620553
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.02,
+      "window": 5000,
+      "marginal_coverage": 0.8001428571428572,
+      "mean_width": 0.08662545408900703,
+      "worst_group_coverage": 0.7944664031620553
+    },
+    {
+      "alpha": 0.2,
+      "gamma": 0.02,
+      "window": 20000,
+      "marginal_coverage": 0.7999142857142857,
+      "mean_width": 0.08681361666716457,
+      "worst_group_coverage": 0.7944664031620553
+    }
+  ],
+  "block_analysis": {
+    "grade": {
+      "aci": [
+        {
+          "block": 0,
+          "marginal": 0.8997142857142857,
+          "worst_group": 0.1956521739130435
+        },
+        {
+          "block": 1,
+          "marginal": 0.9,
+          "worst_group": 0.20634920634920634
+        },
+        {
+          "block": 2,
+          "marginal": 0.9001428571428571,
+          "worst_group": 0.21818181818181817
+        },
+        {
+          "block": 3,
+          "marginal": 0.8992857142857142,
+          "worst_group": 0.2289156626506024
+        },
+        {
+          "block": 4,
+          "marginal": 0.9011428571428571,
+          "worst_group": 0.31
+        },
+        {
+          "block": 5,
+          "marginal": 0.9,
+          "worst_group": 0.18571428571428572
+        },
+        {
+          "block": 6,
+          "marginal": 0.8991428571428571,
+          "worst_group": 0.22580645161290322
+        },
+        {
+          "block": 7,
+          "marginal": 0.9007142857142857,
+          "worst_group": 0.2727272727272727
+        },
+        {
+          "block": 8,
+          "marginal": 0.8997142857142857,
+          "worst_group": 0.15384615384615385
+        },
+        {
+          "block": 9,
+          "marginal": 0.9007142857142857,
+          "worst_group": 0.22857142857142856
+        }
+      ],
+      "gaci": [
+        {
+          "block": 0,
+          "marginal": 0.8978571428571429,
+          "worst_group": 0.8043478260869565
+        },
+        {
+          "block": 1,
+          "marginal": 0.9004285714285715,
+          "worst_group": 0.8972222222222223
+        },
+        {
+          "block": 2,
+          "marginal": 0.9018571428571428,
+          "worst_group": 0.8967551622418879
+        },
+        {
+          "block": 3,
+          "marginal": 0.8971428571428571,
+          "worst_group": 0.8795180722891566
+        },
+        {
+          "block": 4,
+          "marginal": 0.9007142857142857,
+          "worst_group": 0.88
+        },
+        {
+          "block": 5,
+          "marginal": 0.9,
+          "worst_group": 0.8916256157635468
+        },
+        {
+          "block": 6,
+          "marginal": 0.9011428571428571,
+          "worst_group": 0.8994181213632585
+        },
+        {
+          "block": 7,
+          "marginal": 0.9015714285714286,
+          "worst_group": 0.8636363636363636
+        },
+        {
+          "block": 8,
+          "marginal": 0.8988571428571429,
+          "worst_group": 0.8969804618117229
+        },
+        {
+          "block": 9,
+          "marginal": 0.9005714285714286,
+          "worst_group": 0.8571428571428571
+        }
+      ],
+      "gaci_pooled": [
+        {
+          "block": 0,
+          "marginal": 0.8965714285714286,
+          "worst_group": 0.6739130434782609
+        },
+        {
+          "block": 1,
+          "marginal": 0.8997142857142857,
+          "worst_group": 0.8888888888888888
+        },
+        {
+          "block": 2,
+          "marginal": 0.9011428571428571,
+          "worst_group": 0.8786407766990292
+        },
+        {
+          "block": 3,
+          "marginal": 0.898,
+          "worst_group": 0.8795180722891566
+        },
+        {
+          "block": 4,
+          "marginal": 0.9002857142857142,
+          "worst_group": 0.89
+        },
+        {
+          "block": 5,
+          "marginal": 0.8998571428571429,
+          "worst_group": 0.8717948717948718
+        },
+        {
+          "block": 6,
+          "marginal": 0.8987142857142857,
+          "worst_group": 0.8387096774193549
+        },
+        {
+          "block": 7,
+          "marginal": 0.9014285714285715,
+          "worst_group": 0.8636363636363636
+        },
+        {
+          "block": 8,
+          "marginal": 0.8968571428571429,
+          "worst_group": 0.893491124260355
+        },
+        {
+          "block": 9,
+          "marginal": 0.9014285714285715,
+          "worst_group": 0.8857142857142857
+        }
+      ],
+      "scp": [
+        {
+          "block": 0,
+          "marginal": 0.9037142857142857,
+          "worst_group": 0.1956521739130435
+        },
+        {
+          "block": 1,
+          "marginal": 0.898,
+          "worst_group": 0.15873015873015872
+        },
+        {
+          "block": 2,
+          "marginal": 0.8977142857142857,
+          "worst_group": 0.21818181818181817
+        },
+        {
+          "block": 3,
+          "marginal": 0.8804285714285714,
+          "worst_group": 0.1566265060240964
+        },
+        {
+          "block": 4,
+          "marginal": 0.8571428571428571,
+          "worst_group": 0.22
+        },
+        {
+          "block": 5,
+          "marginal": 0.8421428571428572,
+          "worst_group": 0.08571428571428572
+        },
+        {
+          "block": 6,
+          "marginal": 0.8575714285714285,
+          "worst_group": 0.16129032258064516
+        },
+        {
+          "block": 7,
+          "marginal": 0.8312857142857143,
+          "worst_group": 0.11363636363636363
+        },
+        {
+          "block": 8,
+          "marginal": 0.8511428571428571,
+          "worst_group": 0.10256410256410256
+        },
+        {
+          "block": 9,
+          "marginal": 0.8321428571428572,
+          "worst_group": 0.14285714285714285
+        }
+      ]
+    }
+  }
+}
