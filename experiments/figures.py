@@ -38,7 +38,8 @@ def fig1():
 
     fig, axes = plt.subplots(2, 4, figsize=(13, 6.5), sharex=False)
     axes = axes.ravel()
-    colors = {"SCP": "#9e9e9e", "ACI": "#d62728", "GACI": "#1f77b4"}
+    # Okabe-Ito on-white subset: SCP black, ACI vermillion, GACI blue
+    colors = {"SCP": "#000000", "ACI": "#D55E00", "GACI": "#0072B2"}
 
     for ax, g in zip(axes, grades):
         mask = groups == g
@@ -73,11 +74,14 @@ def fig1():
     print("fig1 written")
 
 
+METHOD_DISPLAY = {"aci": "ACI", "gaci": "GACI", "gaci_pooled": "GACI-pooled"}
+
+
 def _methods(block):
     """Yield (method, mean_width, worst_group_coverage) where available."""
     for m in ("aci", "gaci", "gaci_pooled"):
         if m in block and "worst_group_coverage" in block[m]:
-            yield m, block[m]["mean_width"], block[m]["worst_group_coverage"]
+            yield METHOD_DISPLAY[m], block[m]["mean_width"], block[m]["worst_group_coverage"]
 
 
 def fig2():
@@ -116,39 +120,57 @@ def fig2():
     pts.append(("SCP", e4["scp"]["mean_width"], float(worst),
                 "LendingClub", "ridge"))
 
-    method_color = {"SCP": "#9e9e9e", "ACI": "#d62728",
-                    "GACI": "#1f77b4", "GACI-pooled": "#ff7f0e"}
-    method_marker = {"SCP": "x", "ACI": "o", "GACI": "o", "GACI-pooled": "s"}
-    domain_ls = {"ridge": "-", "lightgbm": "--"}
+    # Encoding (redundant, colorblind-conscious):
+    #   color     = method      (Okabe-Ito on-white subset)
+    #   marker    = domain      (o = LendingClub, s = Electricity)
+    #   edge style+width = base model (- thin = ridge, -- thick = LightGBM)
+    #   open face = GACI-pooled variant
+    method_color = {"SCP": "#000000", "ACI": "#D55E00",
+                    "GACI": "#0072B2", "GACI-pooled": "#009E73"}
+    domain_marker = {"LendingClub": "o", "Electricity": "s"}
+    base_ls = {"ridge": "-", "lightgbm": "--"}
 
-    fig, ax = plt.subplots(figsize=(8, 5.5))
-    seen = set()
+    fig, ax = plt.subplots(figsize=(8, 5.5), layout="constrained")
     for m, w, c, dom, base in pts:
-        key = (m, dom, base)
-        ax.scatter(w, c, s=42,
-                   color=method_color.get(m, "k"),
-                   marker=method_marker.get(m, "o"),
-                   facecolors="none" if m == "GACI-pooled" else method_color.get(m, "k"),
-                   edgecolors=method_color.get(m, "k"),
-                   linewidths=1.4,
-                   linestyle=domain_ls[base],
-                   alpha=0.9,
-                   label=f"{m} / {dom} / {base}" if key not in seen else None)
-        seen.add(key)
+        col = method_color[m]
+        ax.scatter(w, c, s=45,
+                   color=col,
+                   marker=domain_marker[dom],
+                   facecolors="none" if m == "GACI-pooled" else col,
+                   edgecolors=col,
+                   linewidths=1.2 if base == "ridge" else 2.6,
+                   linestyle=base_ls[base],
+                   alpha=0.9)
     ax.axhline(TARGET, color="k", lw=0.8, ls=":", alpha=0.6)
-    ax.text(ax.get_xlim()[1] * 0.99 if False else 0.98,
-            TARGET + 0.006, "target 0.90", fontsize=8, ha="right")
+    ax.annotate("target 0.90", xy=(0.99, TARGET), xycoords=("axes fraction", "data"),
+                fontsize=8, ha="right", va="bottom")
     ax.set_xscale("log")
     ax.set_xlabel("mean prediction-interval width (log scale)")
     ax.set_ylabel("worst-group coverage")
     ax.set_ylim(0.1, 0.95)
-    ax.set_title("Coverage–width frontier: group-conditional adaptation\n"
-                 "(points = method × grouping × experiment; "
+    ax.set_title("Coverage-width frontier: group-conditional adaptation\n"
+                 "(points = method x grouping x experiment; "
                  "SCP y = worst-group coverage on grade grouping)",
                  fontsize=10)
-    ax.legend(fontsize=7, ncol=2, loc="lower right")
+
+    # Legend: method colors as proxy artists; marker/linestyle explained in text
+    import matplotlib.lines as mlines
+    handles = []
+    for m in ("SCP", "ACI", "GACI", "GACI-pooled"):
+        pooled = m == "GACI-pooled"
+        handles.append(mlines.Line2D(
+            [], [], color=method_color[m], marker="o", linestyle="-",
+            markerfacecolor="none" if pooled else method_color[m],
+            markeredgecolor=method_color[m], markersize=6, label=m))
+    leg1 = ax.legend(handles=handles, title="method", fontsize=8,
+                     loc="lower right", framealpha=0.9)
+    ax.add_artist(leg1)
+    ax.text(0.02, 0.02,
+            "marker: \u25cb LendingClub, \u25a1 Electricity\n"
+            "edge: thin solid = ridge, thick dashed = LightGBM",
+            transform=ax.transAxes, fontsize=7.5, va="bottom",
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="0.8", alpha=0.9))
     ax.grid(alpha=0.25, which="both")
-    fig.tight_layout()
     fig.savefig(OUT / "fig2_frontier.png", dpi=200)
     plt.close(fig)
     print(f"fig2 written ({len(pts)} points)")

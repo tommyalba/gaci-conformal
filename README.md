@@ -5,7 +5,7 @@ can conceal severe subgroup undercoverage; GACI restores per-group
 coverage at ~2x interval width, exactly when groups differ in
 conditional difficulty.
 
-- `experiments/` — e1..e8 experiment scripts + figures.py
+- `experiments/` — e1..e9 experiment scripts + figures.py
 - `results/` — metrics JSONs, per-step series NPZ, figures
 - `src/` — ACI/GACI implementation
 - `WORKSHOP.md` — workshop-version manuscript (the paper)

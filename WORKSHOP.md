@@ -73,8 +73,9 @@ what does the fix cost?** Our contributions:
 
 4. **Robustness evidence.** The phenomenon and fix replicate across
    stream subsamples (150k/250k rows), a 27-point hyperparameter grid,
-   and a stronger LightGBM base model, addressing the two most likely
-   reviewer objections (subsample luck, weak predictor) before submission.
+   and a stronger LightGBM base model, plus an unseen-group holdout
+   (E9), addressing the most likely reviewer objections (subsample luck,
+   weak predictor, cold-start groups) before submission.
 
 Our scope is honest: we claim an empirical characterization and a simple
 algorithm, not a theorem. Per-group marginal coverage follows directly
@@ -141,8 +142,9 @@ tracking marginal coverage under shift. We use `α = 0.10`,
 only its own subsequence of the stream, maintains its own score window
 `W_{t,g}` seeded from calibration rows of that group, and updates its own
 `α_{t,g}`. Arrivals route to `ACI_g` by their label; groups below a
-minimum seed count (MIN_GROUP = 200) or unseen at test time fall back to
-the marginal ACI, a design choice we flag as untested. A *pooled*
+minimum seed count (MIN_GROUP = 200) or unseen at test time cold-start
+their own ACI from stream residuals, a fallback we quantify in E9. A
+*pooled*
 variant shares one score window across groups while keeping per-group
 `α_t`, our ablation isolates whether per-group windows (not just
 per-group step sizes) drive the gains.
@@ -224,6 +226,19 @@ E4 worst-group goes 0.300 (ACI) → 0.890 (GACI); E6 hour-band 0.862 →
 0.900, **the phenomenon and fix survive a substantially stronger base
 model**.
 
+**Unseen groups (E9).** We hold grade G out of *all* calibration data so
+it is genuinely unseen, then compare fallback strategies. Per-group
+cold-start ACI (each unseen group accumulates its own score window from
+stream residuals) covers G at **0.892**, statistically indistinguishable
+from the seeded 0.892, with 0.885 coverage in its first 200 arrivals;
+routing unseen groups to the marginal ACI instead gives 0.869. The
+reason is structural: G's own residuals are large, so its personal score
+window produces appropriately wide intervals almost immediately, while
+the marginal window, dominated by easy grades, stays too narrow. In
+practice grade G was already cold-starting in E4–E8 (its calibration
+count is below MIN_GROUP), so E9 validates the fallback the main
+results already relied on rather than a hypothetical.
+
 ## 6. Discussion
 
 **When GACI pays.** When (i) group labels are available at prediction
@@ -238,8 +253,10 @@ coverage gain. Practitioners should diagnose per-group coverage
 *before* adopting it; our E5 table is exactly that diagnostic.
 
 **Limitations.** Group labels must be observed at prediction time; GACI
-cannot discover latent subgroups (unseen-group fallback is implemented
-but untested). Small groups adapt slowly, grade G's ~566 stream
+cannot discover latent subgroups. Unseen groups cold-start per-group
+(quantified in E9 for one held-out grade; other unseen regimes, e.g.
+groups that are both rare and hard, remain open). Small groups adapt
+slowly, grade G's ~566 stream
 observations barely fill a window; MIN_GROUP=200 is a heuristic. We
 guarantee group-marginal, not `x`-conditional, coverage; residual
 heterogeneity *within* groups is untouched. All groups share one `α`;
@@ -292,4 +309,4 @@ and takes full responsibility for the content.
   groupings × three methods.
 - **A.3 Sensitivity grid**: 27-run summary statistics.
 - **A.4 Reproduction**: `conda run -n credit-risk_VENV python
-  experiments/e{1..8}_*.py`; figures via `experiments/figures.py`.
+  experiments/e{1..9}_*.py`; figures via `experiments/figures.py`.

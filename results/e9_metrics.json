@@ -1,0 +1,36 @@
+{
+  "experiment": "E9_unseen_groups",
+  "holdout": "G",
+  "alpha": 0.1,
+  "gamma": 0.01,
+  "window": 5000,
+  "min_group": 200,
+  "cold": {
+    "unseen_groups": [
+      "G"
+    ],
+    "marginal_coverage": 0.9000142857142858,
+    "mean_width": 0.10709444021504062,
+    "group_G": {
+      "n": 566,
+      "coverage": 0.892226148409894,
+      "mean_width": 0.20769668462423374,
+      "coverage_first200": 0.885,
+      "coverage_first1000": 0.892226148409894
+    }
+  },
+  "marginal": {
+    "unseen_groups": [
+      "G"
+    ],
+    "marginal_coverage": 0.8998285714285714,
+    "mean_width": 0.1070771548182262,
+    "group_G": {
+      "n": 566,
+      "coverage": 0.8692579505300353,
+      "mean_width": 0.20555891470018695,
+      "coverage_first200": 0.835,
+      "coverage_first1000": 0.8692579505300353
+    }
+  }
+}

@@ -50,8 +50,9 @@ Not a theorem — an **empirical characterization + algorithm**:
 ## Honest limitations (must appear in the paper)
 
 - **Group labels must be available at prediction time.** GACI cannot discover
-  latent subgroups; unknown-group arrivals need a fallback policy (we route
-  to a default ACI — untested, flag as future work).
+  latent subgroups; unknown-group arrivals cold-start their own per-group
+  ACI from stream residuals (validated in E9 for one held-out grade;
+  rare+hard and late-appearing regimes remain open).
 - **Small groups adapt slowly.** Grade G (n≈566 stream rows) needed its own
   window; very small groups may never converge within the horizon. Our
   MIN_GROUP=200 seed threshold is a heuristic, not principled.
