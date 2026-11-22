@@ -164,6 +164,53 @@ def test_aci_tracks_marginal_coverage_under_shift():
     assert 0.85 < cov < 0.95
 
 
+def test_run_matches_manual_step_loop():
+    rng = np.random.default_rng(11)
+    y = rng.normal(size=200)
+    p = y + rng.normal(scale=0.7, size=200)
+    a = make_aci(window=50).seed(y[:20], p[:20])
+    batch = a.run(p[20:], y[20:])
+    b = make_aci(window=50).seed(y[:20], p[:20])
+    manual = [b.step(float(pp), float(yy)) for pp, yy in zip(p[20:], y[20:])]
+    for x, y_ in zip(batch, manual):
+        assert x["lo"] == y_["lo"] and x["hi"] == y_["hi"]
+
+
+def test_score_window_trimmed_to_window():
+    aci = make_aci(window=10)
+    aci.seed(np.zeros(50), np.zeros(50))
+    for _ in range(30):
+        aci.step(0.0, 0.0)
+    assert len(aci.score_window) == 10  # in-place trim keeps object identity
+
+
+def test_pooled_shared_window_sees_all_groups_scores():
+    """Pooled GACI variant: ACIs sharing one list object must both observe
+    every appended score (the ablation's core invariant)."""
+    shared = []
+    ga = make_aci(window=20)
+    gb = make_aci(window=20)
+    ga.score_window = shared
+    gb.score_window = shared
+    ga.step(0.0, 1.0)   # appends |1-0| = 1.0
+    gb.step(0.0, 3.0)   # appends 3.0
+    assert shared == [1.0, 3.0]
+    assert ga.score_window is gb.score_window is shared
+
+
+def test_cold_start_unseen_group_self_seeds():
+    """E9 path: an ACI with no calibration seed uses the min_window
+    fallback, then accumulates its own stream scores."""
+    aci = make_aci(min_window=5)
+    r1 = aci.step(0.0, 2.0)  # empty window -> halfwidth 1.0 fallback
+    assert r1["halfwidth"] == pytest.approx(1.0)
+    for i in range(4):
+        aci.step(0.0, 2.0)
+    # after >= min_window scores the quantile path takes over
+    scores = np.array(aci.score_window[-aci.window:])
+    assert len(scores) >= 5
+
+
 def test_per_group_aci_isolation():
     """GACI pattern: two groups with different difficulty keep separate state."""
     rng = np.random.default_rng(3)

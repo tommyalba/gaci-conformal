@@ -68,7 +68,9 @@ def run_gaci(pred_cal, y_cal, groups_cal, pred_stream, y_stream, groups_stream,
              pooled=False):
     """Per-group ACI. pooled=True shares ONE score-window list object across
     groups (true pooled variant); each group still keeps its own alpha_t."""
-    uniq = sorted(set(groups_cal) | set(groups_stream))
+    # only groups that actually arrive in the stream need an ACI; cal-only
+    # labels (e.g. the stream_era sentinel) must not inflate k_groups
+    uniq = sorted(set(groups_stream))
     acis = {}
     shared = list(np.abs(y_cal - pred_cal)) if pooled else None
     for g in uniq:
@@ -171,6 +173,14 @@ def main():
     for g in sorted(set(g_stream)):
         sub = dfc[dfc.g == g]
         results["aci_per_group"][str(g)] = {"n": int(len(sub)),
+                                            "coverage": float(sub["cov"].mean()),
+                                            "mean_width": float(sub["w"].mean())}
+    # SCP per-group coverage (makes the grade-G 0.161 claim JSON-traceable)
+    dfs = pd.DataFrame({"cov": cov_s, "w": hi_s - lo_s, "g": g_stream})
+    results["scp_per_group"] = {}
+    for g in sorted(set(g_stream)):
+        sub = dfs[dfs.g == g]
+        results["scp_per_group"][str(g)] = {"n": int(len(sub)),
                                             "coverage": float(sub["cov"].mean()),
                                             "mean_width": float(sub["w"].mean())}
 

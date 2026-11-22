@@ -10,7 +10,7 @@
       "k_groups": 7,
       "scp": {
         "marginal_coverage": 0.8651285714285715,
-        "mean_width": 0.1029780769678763
+        "mean_width": 0.10297807696787628
       },
       "aci": {
         "marginal_coverage": 0.9000571428571429,
@@ -28,7 +28,7 @@
       },
       "gaci": {
         "marginal_coverage": 0.9000142857142858,
-        "mean_width": 0.10709444021504065,
+        "mean_width": 0.10709444021504062,
         "worst_group_coverage": 0.892226148409894,
         "per_group": {
           "A": {
@@ -86,7 +86,7 @@
           "C": {
             "n": 19567,
             "coverage": 0.9006490519752645,
-            "mean_width": 0.08535929846569147
+            "mean_width": 0.08535929846569146
           },
           "D": {
             "n": 12793,
@@ -116,7 +116,7 @@
       "k_groups": 9,
       "scp": {
         "marginal_coverage": 0.8651285714285715,
-        "mean_width": 0.1029780769678763
+        "mean_width": 0.10297807696787628
       },
       "aci": {
         "marginal_coverage": 0.9000571428571429,
@@ -157,7 +157,7 @@
           "debt_consolidation": {
             "n": 43022,
             "coverage": 0.9000046487843429,
-            "mean_width": 0.11133221864896402
+            "mean_width": 0.111332218648964
           },
           "home_improvement": {
             "n": 3854,
@@ -244,7 +244,7 @@
       "k_groups": 2,
       "scp": {
         "marginal_coverage": 0.8651285714285715,
-        "mean_width": 0.1029780769678763
+        "mean_width": 0.10297807696787628
       },
       "aci": {
         "marginal_coverage": 0.9000571428571429,
@@ -257,7 +257,7 @@
       },
       "gaci": {
         "marginal_coverage": 0.9000142857142858,
-        "mean_width": 0.1130080909242087,
+        "mean_width": 0.11300809092420872,
         "worst_group_coverage": 0.8999910506533023,
         "per_group": {
           "36 months": {
@@ -295,7 +295,7 @@
       "k_groups": 3,
       "scp": {
         "marginal_coverage": 0.8651285714285715,
-        "mean_width": 0.1029780769678763
+        "mean_width": 0.10297807696787628
       },
       "aci": {
         "marginal_coverage": 0.9000571428571429,
@@ -309,13 +309,13 @@
       },
       "gaci": {
         "marginal_coverage": 0.8999714285714285,
-        "mean_width": 0.1130649240911684,
+        "mean_width": 0.11306492409116842,
         "worst_group_coverage": 0.8993563487419544,
         "per_group": {
           "MORTGAGE": {
             "n": 35105,
             "coverage": 0.9000142429853297,
-            "mean_width": 0.10985616981784073
+            "mean_width": 0.10985616981784074
           },
           "OWN": {
             "n": 6836,
@@ -325,7 +325,7 @@
           "RENT": {
             "n": 28059,
             "coverage": 0.900067714458819,
-            "mean_width": 0.11597870295924063
+            "mean_width": 0.11597870295924062
           }
         }
       },
@@ -347,7 +347,7 @@
           "RENT": {
             "n": 28059,
             "coverage": 0.900103353647671,
-            "mean_width": 0.11622086817265109
+            "mean_width": 0.1162208681726511
           }
         }
       }
@@ -357,7 +357,7 @@
       "k_groups": 1,
       "scp": {
         "marginal_coverage": 0.8651285714285715,
-        "mean_width": 0.1029780769678763
+        "mean_width": 0.10297807696787628
       },
       "aci": {
         "marginal_coverage": 0.9000571428571429,
@@ -369,35 +369,35 @@
       },
       "gaci": {
         "marginal_coverage": 0.9000571428571429,
-        "mean_width": 0.1130959881497463,
+        "mean_width": 0.11309598814974628,
         "worst_group_coverage": 0.9000571428571429,
         "per_group": {
           "2014": {
             "n": 70000,
             "coverage": 0.9000571428571429,
-            "mean_width": 0.1130959881497463
+            "mean_width": 0.11309598814974628
           }
         }
       },
       "gaci_pooled": {
         "marginal_coverage": 0.9000571428571429,
-        "mean_width": 0.1130959881497463,
+        "mean_width": 0.11309598814974628,
         "worst_group_coverage": 0.9000571428571429,
         "per_group": {
           "2014": {
             "n": 70000,
             "coverage": 0.9000571428571429,
-            "mean_width": 0.1130959881497463
+            "mean_width": 0.11309598814974628
           }
         }
       }
     },
     "stream_era": {
       "grouping": "stream_era",
-      "k_groups": 3,
+      "k_groups": 2,
       "scp": {
         "marginal_coverage": 0.8651285714285715,
-        "mean_width": 0.1029780769678763
+        "mean_width": 0.10297807696787628
       },
       "aci": {
         "marginal_coverage": 0.9000571428571429,
@@ -427,7 +427,7 @@
       },
       "gaci_pooled": {
         "marginal_coverage": 0.9000857142857143,
-        "mean_width": 0.11309951136853133,
+        "mean_width": 0.11309951136853132,
         "worst_group_coverage": 0.9000571428571429,
         "per_group": {
           "early": {
@@ -450,7 +450,7 @@
       "gamma": 0.005,
       "window": 2000,
       "marginal_coverage": 0.9496857142857142,
-      "mean_width": 0.12486903222498624,
+      "mean_width": 0.12486903222498623,
       "worst_group_coverage": 0.924901185770751
     },
     {
@@ -458,7 +458,7 @@
       "gamma": 0.005,
       "window": 5000,
       "marginal_coverage": 0.9496,
-      "mean_width": 0.12476014430037569,
+      "mean_width": 0.12476014430037571,
       "worst_group_coverage": 0.924901185770751
     },
     {
@@ -466,7 +466,7 @@
       "gamma": 0.005,
       "window": 20000,
       "marginal_coverage": 0.9494,
-      "mean_width": 0.12519925887336555,
+      "mean_width": 0.12519925887336558,
       "worst_group_coverage": 0.924901185770751
     },
     {
@@ -482,7 +482,7 @@
       "gamma": 0.01,
       "window": 5000,
       "marginal_coverage": 0.9496285714285714,
-      "mean_width": 0.1259823507343928,
+      "mean_width": 0.12598235073439276,
       "worst_group_coverage": 0.924901185770751
     },
     {
@@ -546,7 +546,7 @@
       "gamma": 0.01,
       "window": 2000,
       "marginal_coverage": 0.9,
-      "mean_width": 0.10749424044197806,
+      "mean_width": 0.10749424044197807,
       "worst_group_coverage": 0.8893280632411067
     },
     {
@@ -562,7 +562,7 @@
       "gamma": 0.01,
       "window": 20000,
       "marginal_coverage": 0.8997428571428572,
-      "mean_width": 0.10754241534380266,
+      "mean_width": 0.10754241534380268,
       "worst_group_coverage": 0.8893280632411067
     },
     {
@@ -586,7 +586,7 @@
       "gamma": 0.02,
       "window": 20000,
       "marginal_coverage": 0.8994,
-      "mean_width": 0.10966669909044231,
+      "mean_width": 0.1096666990904423,
       "worst_group_coverage": 0.8893280632411067
     },
     {
@@ -602,7 +602,7 @@
       "gamma": 0.005,
       "window": 5000,
       "marginal_coverage": 0.7996571428571428,
-      "mean_width": 0.08615722549930632,
+      "mean_width": 0.08615722549930634,
       "worst_group_coverage": 0.782608695652174
     },
     {
@@ -610,7 +610,7 @@
       "gamma": 0.005,
       "window": 20000,
       "marginal_coverage": 0.799,
-      "mean_width": 0.08599587037679372,
+      "mean_width": 0.08599587037679371,
       "worst_group_coverage": 0.782608695652174
     },
     {
@@ -634,7 +634,7 @@
       "gamma": 0.01,
       "window": 20000,
       "marginal_coverage": 0.7997142857142857,
-      "mean_width": 0.08620389361613479,
+      "mean_width": 0.08620389361613477,
       "worst_group_coverage": 0.7905138339920948
     },
     {
@@ -642,7 +642,7 @@
       "gamma": 0.02,
       "window": 2000,
       "marginal_coverage": 0.8002,
-      "mean_width": 0.08653739793853647,
+      "mean_width": 0.08653739793853649,
       "worst_group_coverage": 0.7944664031620553
     },
     {
@@ -650,7 +650,7 @@
       "gamma": 0.02,
       "window": 5000,
       "marginal_coverage": 0.8001428571428572,
-      "mean_width": 0.08662545408900703,
+      "mean_width": 0.08662545408900701,
       "worst_group_coverage": 0.7944664031620553
     },
     {

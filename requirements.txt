@@ -1,0 +1,10 @@
+# Tested environment: credit-risk_VENV (Python 3.13, CPU-only)
+# Experiments E2-E9 use no RNG calls; determinism comes from fixed data
+# order + deterministic solvers. LightGBM (E8) sets seed=42 but parallel
+# histogram building can introduce run-to-run variance under threads.
+numpy==2.4.6
+pandas==3.0.3
+scikit-learn==1.5.2
+lightgbm==4.6.0
+matplotlib==3.11.0
+pytest==9.2.0

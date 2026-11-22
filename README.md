@@ -23,4 +23,10 @@ python experiments/figures.py          # regenerate figures
 
 Datasets (not committed): Lending Club Kaggle slice (200k rows, see
 data-prep notes in experiments) and UCI household_power_consumption.txt
-(place in `data/`).
+(place in `data/`). Environment pins: `requirements.txt`.
+
+Note on determinism: E1 uses an explicit seed; E2-E9 perform no random
+operations (closed-form ridge, deterministic pandas reads), so reruns
+reproduce `results/` bit-for-bit apart from floating-point noise. E8's
+LightGBM sets `seed=42` but multi-threaded histogram building can vary
+slightly between runs.

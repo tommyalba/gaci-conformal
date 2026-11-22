@@ -58,7 +58,9 @@ def grouping_arrays(df):
 
 def evaluate_grouping(name, y_cal, p_cal, g_cal, y_st, p_st, g_st):
     """SCP / marginal ACI / GACI(own windows) / GACI(pooled) for one grouping."""
-    uniq = sorted(set(g_cal) | set(g_st))
+    # count only groups that arrive in the stream; cal-only sentinel
+    # labels (e.g. stream_era's "cal") must not inflate k_groups
+    uniq = sorted(set(g_st))
     # drop groups with no stream presence or tiny calibration support handled inside run_gaci
     scp = SplitConformal(alpha=e4.ALPHA).fit_calibrate(y_cal, p_cal)
     lo_s, hi_s = scp.predict(p_st)
@@ -142,6 +144,7 @@ def sensitivity_grid(y_cal, p_cal, g_cal, y_st, p_st, g_st):
                                 v["coverage"] for v in pg.values())})
                 print(f"  grid a={a} g={gm} w={w}: cov={cov.mean():.3f} "
                       f"worst={out[-1]['worst_group_coverage']:.3f}", flush=True)
+    e4.ALPHA, e4.GAMMA, e4.WINDOW = 0.1, 0.01, 5000  # restore module defaults
     return out
 
 

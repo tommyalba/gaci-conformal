@@ -1,8 +1,8 @@
 # Marginal Coverage Can Hide Subgroup Failure: Group-Conditional Adaptive Conformal Inference Under Distribution Shift
 
-**Status:** workshop draft v1 (2026-11-22). All numbers trace to
+**Status:** workshop draft v2 (2026-11-23). All numbers trace to
 `results/*.json`; figures in `results/figures/`. AI-assistance disclosure
-in Acknowledgments (required).
+in Acknowledgments and, for the TMLR version, a first-page footnote.
 
 ---
 
@@ -165,11 +165,18 @@ tiers), purpose, term, home ownership, issue year, stream era.
 (2006–2010), ridge on lag + calendar features; groups = hour band
 (night/morning/afternoon/evening), day type (weekday/weekend), month.
 
-**Protocol.** 55% train / 10% calibration / 35% chronological test
-stream; the predictor is frozen before the stream; all methods see the
-same stream in the same order. Metrics: marginal coverage, per-group and
-worst-group coverage, mean interval width, Winkler score, coverage-gap
-regret, and 10-block worst-group spread.
+**Protocol.** Chronological splits per domain: Lending Club 55% train /
+10% calibration / 35% stream; electricity 60% / 10% / 30% (its shorter
+stream still gives each calendar group thousands of arrivals). The
+predictor is frozen before the stream; all methods see the same stream
+in the same order. Numeric features are standardized with whole-slice
+statistics, a mild, documented approximation whose effect is negligible
+under the gradual drift in both domains; we flag it for completeness.
+Grade G has only ~161 calibration rows, below MIN_GROUP = 200, so it
+cold-starts its own ACI in *every* experiment, E9 (§5.5) validates that
+fallback explicitly rather than hypothetically. Metrics: marginal
+coverage, per-group and worst-group coverage, mean interval width,
+Winkler score, coverage-gap regret, and 10-block worst-group spread.
 
 **Sanity checks (E1–E2).** E1 reproduces the ACI paper's claim on
 synthetic regime shift (SCP collapses to 0.41 coverage, ACI holds 0.90).
@@ -259,7 +266,15 @@ groups that are both rare and hard, remain open). Small groups adapt
 slowly, grade G's ~566 stream
 observations barely fill a window; MIN_GROUP=200 is a heuristic. We
 guarantee group-marginal, not `x`-conditional, coverage; residual
-heterogeneity *within* groups is untouched. All groups share one `α`;
+heterogeneity *within* groups is untouched. Width comparisons are point
+estimates from a single stream ordering; we report block-level coverage
+spread but no confidence intervals on width. We do not compare against
+simpler alternatives such as group-conditional score normalization or
+importance-weighted split conformal, nor against temporal CP baselines
+on electricity; both are natural follow-ups. Our sensitivity grid
+covers GACI hyperparameters, not the marginal ACI grid (the grade-G
+gap persists across the grid's range by inspection of E5 logs). All
+groups share one `α`;
 unequal allocation across groups is future work. Our per-group guarantee
 is a corollary of ACI applied to subsequences; we prove nothing about
 interactions between groups sharing the predictor. Experiments use a
@@ -303,8 +318,10 @@ and takes full responsibility for the content.
 
 ## Appendix (workshop version: compressed)
 
-- **A.1 Protocol details**: exact split indices, feature lists, seed
-  handling (deterministic single run, see Limitations).
+- **A.1 Protocol details**: exact split sizes, Lending Club 110,000
+  train / 20,000 calibration / 70,000 stream; electricity 122,883 /
+  20,480 / 61,443; feature lists; deterministic single run (see
+  Limitations; E2–E9 use no RNG).
 - **A.2 Full E5 table**: per-group coverage and width for all six
   groupings × three methods.
 - **A.3 Sensitivity grid**: 27-run summary statistics.

@@ -147,7 +147,7 @@ def fig2():
     ax.set_xscale("log")
     ax.set_xlabel("mean prediction-interval width (log scale)")
     ax.set_ylabel("worst-group coverage")
-    ax.set_ylim(0.1, 0.95)
+    ax.set_ylim(0.05, 1.0)
     ax.set_title("Coverage-width frontier: group-conditional adaptation\n"
                  "(points = method x grouping x experiment; "
                  "SCP y = worst-group coverage on grade grouping)",

@@ -104,6 +104,10 @@ class ACI:
             self.alpha_t + self._gamma_t() * (self.target_alpha - err), 0.0, 1.0))
         self.t += 1
         self.score_window.append(abs(y_true_t - y_pred_t))
+        # keep only what the quantile slice can use; in-place del preserves
+        # object identity for the pooled-window variant's shared list
+        if len(self.score_window) > self.window:
+            del self.score_window[:-self.window]
         return {"lo": lo, "hi": hi, "covered": covered, "alpha_t": self.alpha_history[-1],
                 "halfwidth": halfwidth}
 
