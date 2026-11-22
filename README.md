@@ -8,6 +8,7 @@ conditional difficulty.
 
 - `experiments/` — e1..e10 experiment scripts + ci_analysis.py + figures.py
 - `results/` — metrics JSONs (incl. ci_metrics.json), per-step series NPZ, figures
+- `notebooks/exploration.ipynb` — interactive exploration of saved artifacts (no retraining)
 - `src/` — ACI/GACI implementation
 - `WORKSHOP.md` — workshop-version manuscript (the paper)
 - `THEORY.md` — claim boundaries and honest limitations
