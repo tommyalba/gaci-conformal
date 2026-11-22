@@ -15,7 +15,9 @@ conditional difficulty.
 
 ```bash
 conda activate credit-risk_VENV   # or: conda run -n credit-risk_VENV python ...
+python -m pytest tests/ -q              # 16 unit tests for src/aci.py
 python experiments/e4_group_aci.py     # headline experiment
+python experiments/e9_unseen_groups.py # unseen-group fallback (E9)
 python experiments/figures.py          # regenerate figures
 ```
 
