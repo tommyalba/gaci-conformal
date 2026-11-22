@@ -43,17 +43,21 @@ CATEGORICAL = {"term": None, "home_ownership": None, "verification_status": None
                "purpose": 8, "emp_length": None}
 
 
-def build_features(df):
+def build_features(df, fit_rows=None):
+    """fit_rows: number of leading (train) rows used to estimate
+    medians/means/stds and top-k categories — no cal/stream leakage."""
     parts, names = [], []
     Xn = df[NUMERIC].apply(pd.to_numeric, errors="coerce")
     Xn["revol_bal"] = np.log1p(Xn["revol_bal"])
-    Xn = Xn.fillna(Xn.median())
-    Xn = (Xn - Xn.mean()) / Xn.std(ddof=0)
+    fit = Xn.iloc[:fit_rows] if fit_rows else Xn
+    Xn = Xn.fillna(fit.median())
+    Xn = (Xn - fit.mean()) / fit.std(ddof=0)
     parts.append(Xn.to_numpy()); names += list(Xn.columns)
     for col, topk in CATEGORICAL.items():
         s = df[col].astype(str).fillna("missing")
         if topk:
-            keep = s.value_counts().head(topk).index
+            src = s.iloc[:fit_rows] if fit_rows else s
+            keep = src.value_counts().head(topk).index
             s = s.where(s.isin(keep), "OTHER")
         d = pd.get_dummies(s, prefix=col, dtype=float)
         parts.append(d.to_numpy()); names += list(d.columns)
@@ -117,9 +121,10 @@ def main():
     df, y = df.loc[mask].reset_index(drop=True), y[mask]
     groups_all = df["grade"].to_numpy()
 
-    X, _ = build_features(df)
     n = len(y)
-    n_train = int(n * TRAIN_FRAC); n_cal = int(n * CAL_FRAC)
+    n_train = int(n * TRAIN_FRAC)
+    X, _ = build_features(df, fit_rows=n_train)
+    n_cal = int(n * CAL_FRAC)
     print(f"rows={n} train={n_train} cal={n_cal} stream={n-n_train-n_cal} "
           f"groups={sorted(set(groups_all))}", flush=True)
 
@@ -137,7 +142,7 @@ def main():
     aci = ACI(alpha=ALPHA, gamma=GAMMA, window=WINDOW).seed(y_cal, pred_cal)
     a_res = aci.run(pred_stream, y_stream)
     cov_a = np.array([r["covered"] for r in a_res])
-    w_a = np.array([r["halfwidth"] for r in a_res])
+    w_a = np.array([r["hi"] - r["lo"] for r in a_res])
 
     # group-conditional ACI (own windows)
     g_res = run_gaci(pred_cal, y_cal, g_cal, pred_stream, y_stream, g_stream, pooled=False)

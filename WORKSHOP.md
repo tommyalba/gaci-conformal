@@ -16,11 +16,12 @@ undercoverage in identifiable subgroups. On a decade of Lending Club loan
 data, marginal ACI holds 90% overall coverage while covering grade-G
 loans, the riskiest segment, only 23% of the time. We propose GACI
 (group-conditional ACI), which runs one adaptive conformal procedure per
-group and restores per-group coverage to target at roughly twice the mean
-interval width. Across two domains (credit-risk tabular drift and
+group and restores per-group coverage to target at essentially unchanged
+mean interval width, reallocating width toward the groups that need it.
+Across two domains (credit-risk tabular drift and
 calendar-heterogeneous electricity demand), the phenomenon replicates,
 the fix works exactly when groups differ in conditional difficulty, and
-fails gracefully, at pure width cost, when they do not. The practical
+fails gracefully, with no coverage gain, when they do not. The practical
 takeaway is a diagnostic recipe: measure per-group coverage before
 trusting marginal coverage, and pay for group-conditioning only where
 coverage diverges. Code, data
@@ -58,18 +59,19 @@ what does the fix cost?** Our contributions:
    grade G). The same pattern replicates on UCI household electricity
    demand under calendar groupings.
 
-2. **GACI, a simple fix with a measurable price.** Running one ACI per
-   group, each with its own conformity-score window, restores worst-group
-   coverage to 0.892 (target 0.90) at ~1.9× mean interval width
-   (0.057 → 0.107). On electricity, hour-band worst-group coverage goes
-   0.865 → 0.900 at ~2× width.
+2. **GACI, a simple fix that reallocates width, not multiplies it.**
+   Running one ACI per group, each with its own conformity-score window,
+   restores worst-group coverage to 0.892 (target 0.90) at essentially
+   unchanged mean width (0.107 vs marginal ACI's 0.113); the cost is
+   redistributive, grade G's mean width roughly doubles (0.114 → 0.208)
+   while easy grades narrow. On electricity, hour-band worst-group
+   coverage goes 0.865 → 0.900 at unchanged mean width (3.12 → 3.14).
 
 3. **Boundary conditions, characterized honestly.** The gap is large
    only when groups differ in *conditional difficulty* (loan grade,
    loan purpose). For easy splits, loan term, calendar era, calendar
-   month, marginal ACI is already uniform and GACI buys nothing while
-   doubling width. We report these negative results as first-class
-   findings.
+   month, marginal ACI is already uniform and GACI buys nothing.
+   We report these negative results as first-class findings.
 
 4. **Robustness evidence.** The phenomenon and fix replicate across
    stream subsamples (150k/250k rows), a 27-point hyperparameter grid,
@@ -169,9 +171,10 @@ tiers), purpose, term, home ownership, issue year, stream era.
 10% calibration / 35% stream; electricity 60% / 10% / 30% (its shorter
 stream still gives each calendar group thousands of arrivals). The
 predictor is frozen before the stream; all methods see the same stream
-in the same order. Numeric features are standardized with whole-slice
-statistics, a mild, documented approximation whose effect is negligible
-under the gradual drift in both domains; we flag it for completeness.
+in the same order. Numeric features are standardized using
+training-partition statistics only (imputation medians and feature
+means/stds fit on train, then applied to calibration and stream), so no
+calibration or stream information leaks into preprocessing.
 Grade G has only ~161 calibration rows, below MIN_GROUP = 200, so it
 cold-starts its own ACI in *every* experiment, E9 (§5.5) validates that
 fallback explicitly rather than hypothetically. Metrics: marginal
@@ -187,8 +190,8 @@ E2 confirms marginal ACI is already calibrated on electricity (SCP 0.900)
 
 **The masking phenomenon (E3–E4).** On Lending Club, split conformal
 under-covers marginally (0.865 vs target 0.90) while ACI restores
-marginal coverage at *half* the width (0.057 vs 0.103), the adaptive
-baseline is strictly better here. But marginal validity hides subgroup
+marginal coverage at a modest width premium (0.113 vs SCP's 0.103), the
+adaptive baseline is strictly better here. But marginal validity hides subgroup
 failure: ACI's per-grade coverage ranges from 0.972 (grade C) down to
 **0.230 (grade G)** and 0.374 (grade F), the riskiest loans are covered
 least. Ten-block analysis shows grade-G worst-group coverage stable at
@@ -196,7 +199,10 @@ least. Ten-block analysis shows grade-G worst-group coverage stable at
 
 **GACI restores per-group validity (E4–E5).** Per-grade GACI lifts
 worst-group coverage 0.230 → **0.892** and compresses the per-grade
-range to 0.89–0.90, at mean width 0.107 (~1.9× ACI's 0.057). Across
+range to 0.89–0.90, at essentially unchanged mean width (0.107 vs ACI's
+0.113; block-bootstrap 95% CIs overlap). The width cost is
+redistributive: grade G's mean width rises 0.114 → 0.208 (~1.8×) while
+easy grades narrow (grade C: 0.113 → 0.085). Across
 six groupings the pattern is selective, exactly as the mechanism
 predicts:
 
@@ -206,8 +212,8 @@ predicts:
 | purpose | 0.773 | 0.899 | moderate gap, fixed |
 | term | 0.882 | 0.900 | small gap, ~free |
 | home_ownership | 0.885 | 0.899 | small gap, ~free |
-| issue_year | 0.900 | 0.900 | no gap, pure cost |
-| stream_era | 0.900 | 0.900 | no gap, pure cost |
+| issue_year | 0.900 | 0.900 | no gap, no benefit |
+| stream_era | 0.900 | 0.900 | no gap, no benefit |
 
 The pooled-window ablation (shared scores, per-group `α_t`) reaches only
 0.869 worst-group on grade, **per-group score windows matter**, not
@@ -217,18 +223,21 @@ just per-group learning rates.
 already fine; the action is again group-level. Hour-band grouping shows
 the same masking: ACI covers morning (0.865) and evening (0.868) poorly
 while over-covering night (0.956), marginal ACI *redistributes* coverage
-across day-parts. GACI equalizes all four bands to ≈0.900 at ~2× width
-(1.58 → 3.20). Day-type shows a small gap (0.894 → 0.900). **Month shows
+across day-parts. GACI equalizes all four bands to ≈0.900 at unchanged
+mean width (3.12 → 3.14; per-band widths diverge, evening widest).
+Day-type shows a small gap (0.894 → 0.900). **Month shows
 no gap at all** (0.899 → 0.899): when base calibration is already uniform
-across groups, group-conditioning is pure width cost, our honest
+across groups, group-conditioning buys nothing, our honest
 negative result.
 
 **Robustness (E7–E8).** E4 subsample variance: ACI worst-group 0.238 /
 0.260 at 150k/250k rows (baseline 0.230); GACI 0.889 / 0.896 (baseline
 0.892), the gap is not a subsample artifact. A 27-point grid over
-`(α, γ, window)` shows coverage tracking `α` almost exactly and
-worst-group coverage varying ≤0.04 at fixed `α`, GACI is not a
-hyperparameter artifact. E8 swaps the ridge predictor for LightGBM:
+`(α, γ, window)`, run for *both* GACI and marginal ACI on the same
+subsampled stream, shows coverage tracking `α` almost exactly and
+worst-group coverage varying ≤0.04 at fixed `α` for GACI while marginal
+ACI stays at 0.43–0.47 (α=0.05) / ~0.23–0.26 (α=0.10) across the whole
+grid, the gap is not a hyperparameter artifact of either method. E8 swaps the ridge predictor for LightGBM:
 E4 worst-group goes 0.300 (ACI) → 0.890 (GACI); E6 hour-band 0.862 →
 0.900, **the phenomenon and fix survive a substantially stronger base
 model**.
@@ -246,18 +255,35 @@ practice grade G was already cold-starting in E4–E8 (its calibration
 count is below MIN_GROUP), so E9 validates the fallback the main
 results already relied on rather than a hypothetical.
 
+**Simpler alternatives (E10).** Two cheaper fixes fail on grade G.
+Per-group *static* split conformal (each group's own calibration
+quantile, marginal fallback below MIN_GROUP) reaches only 0.157
+coverage on G: without online adaptation, static intervals cannot
+track drift. A single marginal ACI run on *group-normalized* conformity
+scores (each group's calibration residual scale divided out) improves
+G coverage to 0.348, better than plain ACI's 0.230 but far short of
+GACI's 0.892: normalization shrinks the scale mismatch but cannot
+recalibrate each group's miscoverage level independently. We did not
+implement importance-weighted split conformal: under temporal drift
+within groups it requires a covariate-shift weight model we do not
+have, and the label-only alternatives above are the relevant comparison
+for our setting.
+
 ## 6. Discussion
 
 **When GACI pays.** When (i) group labels are available at prediction
 time, (ii) groups differ in conditional difficulty, and (iii) the cost of
-within-group undercoverage exceeds ~2× interval width. Credit-risk
+within-group undercoverage exceeds the redistributive width cost (width
+concentrates on the groups that need it; mean width is roughly
+unchanged). Credit-risk
 intervals that silently fail on the riskiest segment are precisely the
 failure mode fairness-aware uncertainty quantification exists to catch.
 
 **When it doesn't.** When groups are already uniformly calibrated, as
-with easy splits or homogeneous domains, GACI doubles width for zero
-coverage gain. Practitioners should diagnose per-group coverage
-*before* adopting it; our E5 table is exactly that diagnostic.
+with easy splits or homogeneous domains, GACI adds per-group width
+variation for zero coverage gain. Practitioners should diagnose
+per-group coverage *before* adopting it; our E5 table is exactly that
+diagnostic.
 
 **Limitations.** Group labels must be observed at prediction time; GACI
 cannot discover latent subgroups. Unseen groups cold-start per-group
@@ -266,14 +292,15 @@ groups that are both rare and hard, remain open). Small groups adapt
 slowly, grade G's ~566 stream
 observations barely fill a window; MIN_GROUP=200 is a heuristic. We
 guarantee group-marginal, not `x`-conditional, coverage; residual
-heterogeneity *within* groups is untouched. Width comparisons are point
-estimates from a single stream ordering; we report block-level coverage
-spread but no confidence intervals on width. We do not compare against
-simpler alternatives such as group-conditional score normalization or
-importance-weighted split conformal, nor against temporal CP baselines
-on electricity; both are natural follow-ups. Our sensitivity grid
-covers GACI hyperparameters, not the marginal ACI grid (the grade-G
-gap persists across the grid's range by inspection of E5 logs). All
+heterogeneity *within* groups is untouched. Width/coverage comparisons
+carry block-bootstrap 95% CIs (`results/ci_metrics.json`: 10 contiguous
+stream blocks, 20k resamples, fixed seed), which quantify uncertainty
+over stream/block resampling, not coverage guarantees; the headline
+gap (0.230 vs 0.892) is far outside them. We compare against per-group
+static SCP and group-normalized-score marginal ACI (E10); both fail,
+but importance-weighted split conformal and temporal CP baselines on
+electricity remain untested. Our sensitivity grid now covers both GACI
+and marginal ACI hyperparameters. All
 groups share one `α`;
 unequal allocation across groups is future work. Our per-group guarantee
 is a corollary of ACI applied to subsequences; we prove nothing about
@@ -287,10 +314,12 @@ does not.
 Marginal adaptive coverage is not subgroup coverage. We showed that ACI
 can hold 90% overall while covering the riskiest credit segment 23% of
 the time. Per-group adaptive conformal inference restores
-per-group validity at a measurable ~2× width cost, and, just as
+per-group validity by reallocating interval width toward the groups
+that need it, at essentially unchanged mean width, and, just as
 importantly, the fix is worthless when groups are already uniform. The practical recipe has two steps: (1) measure per-group coverage
 alongside marginal coverage; (2) if per-group coverage diverges, pay
-the roughly 2x width cost of GACI. If it does not diverge, keep plain
+the redistributive width cost of GACI (hard groups get wider intervals,
+easy groups narrower). If it does not diverge, keep plain
 ACI. Code, data slices, per-step coverage series, and figure-generation
 scripts are publicly available at
 github.com/tommyalba/gaci-conformal.
@@ -324,6 +353,8 @@ and takes full responsibility for the content.
   Limitations; E2–E9 use no RNG).
 - **A.2 Full E5 table**: per-group coverage and width for all six
   groupings × three methods.
-- **A.3 Sensitivity grid**: 27-run summary statistics.
+- **A.3 Sensitivity grid**: 27-run summary statistics for both GACI
+  and marginal ACI.
 - **A.4 Reproduction**: `conda run -n credit-risk_VENV python
-  experiments/e{1..9}_*.py`; figures via `experiments/figures.py`.
+  experiments/e{1..10}_*.py` plus `experiments/ci_analysis.py`;
+  figures via `experiments/figures.py`.

@@ -10,11 +10,11 @@
       "G"
     ],
     "marginal_coverage": 0.9000142857142858,
-    "mean_width": 0.10709444021504062,
+    "mean_width": 0.10703585330048453,
     "group_G": {
       "n": 566,
       "coverage": 0.892226148409894,
-      "mean_width": 0.20769668462423374,
+      "mean_width": 0.2075894329598488,
       "coverage_first200": 0.885,
       "coverage_first1000": 0.892226148409894
     }
@@ -24,11 +24,11 @@
       "G"
     ],
     "marginal_coverage": 0.8998285714285714,
-    "mean_width": 0.1070771548182262,
+    "mean_width": 0.10701854761544785,
     "group_G": {
       "n": 566,
       "coverage": 0.8692579505300353,
-      "mean_width": 0.20555891470018695,
+      "mean_width": 0.20544915389170726,
       "coverage_first200": 0.835,
       "coverage_first1000": 0.8692579505300353
     }

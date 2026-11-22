@@ -8,47 +8,24 @@
     "mean_coverage": 0.4091,
     "target": 0.9,
     "coverage_gap": 0.4909,
-    "mean_width": 3.148352213323145,
+    "mean_width": 3.1483522133231463,
     "rolling_coverage_min": 0.058,
-    "rolling_coverage_max": 0.9000000000000006,
-    "winkler_score": 21.718447464029293,
-    "coverage_gap_regret": 9502.068499999996,
-    "coverage_by_third": [
-      0.3296835158242088,
-      0.36448177591120445,
-      0.5331533153315332
-    ]
+    "rolling_coverage_max": 0.9000000000000006
   },
   "aci": {
     "mean_coverage": 0.89995,
     "target": 0.9,
     "coverage_gap": 4.999999999999449e-05,
-    "mean_width": 4.021776954678981,
+    "mean_width": 8.043553909357962,
     "rolling_coverage_min": 0.8520000000000005,
-    "rolling_coverage_max": 0.9460000000000006,
-    "winkler_score": 9.64263155818061,
-    "coverage_gap_regret": 32.104000000001754,
-    "coverage_by_third": [
-      0.8998050097495125,
-      0.9001049947502625,
-      0.8999399939994
-    ]
+    "rolling_coverage_max": 0.9460000000000006
   },
   "dtaci": {
     "mean_coverage": 0.90405,
     "target": 0.9,
     "coverage_gap": 0.004049999999999998,
-    "mean_width": 4.067090781201724,
+    "mean_width": 8.13418156240345,
     "rolling_coverage_min": 0.7300000000000004,
     "rolling_coverage_max": 0.9900000000000007
-  },
-  "dt": {
-    "winkler_score": 9.791095632725748,
-    "coverage_gap_regret": 271.9600000000071,
-    "coverage_by_third": [
-      0.8999550022498876,
-      0.9011549422528874,
-      0.9110411041104111
-    ]
   }
 }

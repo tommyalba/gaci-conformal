@@ -46,9 +46,10 @@ def prep():
     mask = ~np.isnan(y)
     df, y = df.loc[mask].reset_index(drop=True), y[mask]
     groups = df["grade"].to_numpy()
-    X, _ = build_features(df)
     n = len(y)
-    n_train = int(n * TRAIN_FRAC); n_cal = int(n * CAL_FRAC)
+    n_train = int(n * TRAIN_FRAC)
+    X, _ = build_features(df, fit_rows=n_train)
+    n_cal = int(n * CAL_FRAC)
     w = ridge_fit(X[:n_train], y[:n_train])
     pred_cal = X[n_train:n_train + n_cal] @ w
     pred_stream = X[n_train + n_cal:] @ w

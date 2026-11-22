@@ -2,11 +2,12 @@
 
 Reproduction and manuscript project: marginal adaptive conformal coverage
 can conceal severe subgroup undercoverage; GACI restores per-group
-coverage at ~2x interval width, exactly when groups differ in
+coverage at essentially unchanged mean width (width is
+reallocated toward the groups that need it), exactly when groups differ in
 conditional difficulty.
 
-- `experiments/` — e1..e9 experiment scripts + figures.py
-- `results/` — metrics JSONs, per-step series NPZ, figures
+- `experiments/` — e1..e10 experiment scripts + ci_analysis.py + figures.py
+- `results/` — metrics JSONs (incl. ci_metrics.json), per-step series NPZ, figures
 - `src/` — ACI/GACI implementation
 - `WORKSHOP.md` — workshop-version manuscript (the paper)
 - `THEORY.md` — claim boundaries and honest limitations

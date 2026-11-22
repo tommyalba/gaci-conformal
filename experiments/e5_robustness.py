@@ -69,7 +69,7 @@ def evaluate_grouping(name, y_cal, p_cal, g_cal, y_st, p_st, g_st):
     aci = ACI(alpha=e4.ALPHA, gamma=e4.GAMMA, window=e4.WINDOW).seed(y_cal, p_cal)
     a_res = aci.run(p_st, y_st)
     cov_a = np.array([r["covered"] for r in a_res])
-    w_a = np.array([r["halfwidth"] for r in a_res])
+    w_a = np.array([r["hi"] - r["lo"] for r in a_res])
 
     g_res = run_gaci(y_cal, p_cal, g_cal, p_st, y_st, g_st, pooled=False)
     cov_g = np.array([r["covered"] for r in g_res])
@@ -137,13 +137,25 @@ def sensitivity_grid(y_cal, p_cal, g_cal, y_st, p_st, g_st):
                 cov = np.array([r["covered"] for r in res])
                 wid = np.array([r["hi"] - r["lo"] for r in res])
                 pg = group_stats(res, g_s)
+                # same grid for marginal ACI: does the grade-G gap persist
+                # across hyperparameters, or is it a tuning artifact?
+                aci_r = ACI(alpha=a, gamma=gm, window=w).seed(y_cal, p_cal).run(p_s, y_s)
+                cov_a = np.array([r["covered"] for r in aci_r])
+                wid_a = np.array([r["hi"] - r["lo"] for r in aci_r])
+                cov_a_g = pd.DataFrame({"cov": cov_a, "g": g_s})
+                aci_worst = min(float(cov_a_g[cov_a_g.g == gv]["cov"].mean())
+                                for gv in set(g_s))
                 out.append({"alpha": a, "gamma": gm, "window": w,
                             "marginal_coverage": float(cov.mean()),
                             "mean_width": float(wid.mean()),
                             "worst_group_coverage": min(
-                                v["coverage"] for v in pg.values())})
+                                v["coverage"] for v in pg.values()),
+                            "aci_marginal_coverage": float(cov_a.mean()),
+                            "aci_mean_width": float(wid_a.mean()),
+                            "aci_worst_group_coverage": float(aci_worst)})
                 print(f"  grid a={a} g={gm} w={w}: cov={cov.mean():.3f} "
-                      f"worst={out[-1]['worst_group_coverage']:.3f}", flush=True)
+                      f"worst={out[-1]['worst_group_coverage']:.3f} "
+                      f"aci_worst={aci_worst:.3f}", flush=True)
     e4.ALPHA, e4.GAMMA, e4.WINDOW = 0.1, 0.01, 5000  # restore module defaults
     return out
 
@@ -165,9 +177,10 @@ def main():
     mask = ~np.isnan(y)
     df, y = df.loc[mask].reset_index(drop=True), y[mask]
 
-    X, _ = build_features(df)
     n = len(y)
-    n_train = int(n * TRAIN_FRAC); n_cal = int(n * CAL_FRAC)
+    n_train = int(n * TRAIN_FRAC)
+    X, _ = build_features(df, fit_rows=n_train)
+    n_cal = int(n * CAL_FRAC)
     w = ridge_fit(X[:n_train], y[:n_train])
     pred_cal = X[n_train:n_train + n_cal] @ w
     pred_stream = X[n_train + n_cal:] @ w

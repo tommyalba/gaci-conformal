@@ -62,9 +62,10 @@ def e4_lightgbm(df):
     df, y = df.loc[mask].reset_index(drop=True), y[mask]
     groups_all = df["grade"].to_numpy()
 
-    X, _ = build_features(df)
     n = len(y)
-    n_train = int(n * TRAIN_FRAC); n_cal = int(n * CAL_FRAC)
+    n_train = int(n * TRAIN_FRAC)
+    X, _ = build_features(df, fit_rows=n_train)
+    n_cal = int(n * CAL_FRAC)
     Xtr, Xcal, Xst = X[:n_train], X[n_train:n_train+n_cal], X[n_train+n_cal:]
     ytr, y_cal, y_st = y[:n_train], y[n_train:n_train+n_cal], y[n_train+n_cal:]
     g_cal, g_st = groups_all[n_train:n_train+n_cal], groups_all[n_train+n_cal:]
@@ -75,7 +76,7 @@ def e4_lightgbm(df):
     aci = ACI(alpha=e4.ALPHA, gamma=e4.GAMMA, window=e4.WINDOW).seed(y_cal, pred_cal)
     a_res = aci.run(pred_stream, y_st)
     cov_a = np.array([r["covered"] for r in a_res])
-    w_a = np.array([r["halfwidth"] for r in a_res])
+    w_a = np.array([r["hi"] - r["lo"] for r in a_res])
     g_res = run_gaci(pred_cal, y_cal, g_cal, pred_stream, y_st, g_st, pooled=False)
     cov_g = np.array([r["covered"] for r in g_res])
     w_g = np.array([r["hi"] - r["lo"] for r in g_res])
@@ -113,7 +114,8 @@ def e6_data():
     data = feats.join(y.rename("target")).dropna()
     yv = data["target"].to_numpy()
     X = data.drop(columns=["target"]).to_numpy(dtype=np.float32)
-    mu, sd = X.mean(0), X.std(0) + 1e-9
+    _ntr = int(len(yv) * e2.TRAIN_FRAC)
+    mu, sd = X[:_ntr].mean(0), X[:_ntr].std(0) + 1e-9
     return yv, ((X - mu) / sd).astype(np.float32), data.index
 
 
@@ -133,7 +135,7 @@ def e6_lightgbm(yv, X, idx):
         aci = ACI(alpha=e2.ALPHA, gamma=e2.GAMMA, window=e2.WINDOW).seed(y_cal, pred_cal)
         a_res = aci.run(pred_stream, y_st)
         cov_a = np.array([r["covered"] for r in a_res])
-        w_a = np.array([r["halfwidth"] for r in a_res])
+        w_a = np.array([r["hi"] - r["lo"] for r in a_res])
         g_res = e6_run_gaci(y_cal, pred_cal, g_cal, pred_stream, y_st, g_st,
                             e2.ALPHA, e2.GAMMA, e2.WINDOW)
         cov_g = np.array([r["covered"] for r in g_res])

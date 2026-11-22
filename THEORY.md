@@ -37,9 +37,11 @@ Not a theorem — an **empirical characterization + algorithm**:
 1. **The masking phenomenon**: marginal ACI can hold `P(cover)→0.90` while a
    subgroup sits at 0.23 (Lending Club grade G). Marginal validity is not
    subgroup validity. (E4, replicated E5)
-2. **The trade-off frontier**: GACI buys per-group validity at ~2× mean
-   interval width on this dataset (0.057 → 0.107). The width cost is the
-   price of conditional-ish validity; quantifying it is the contribution.
+2. **The trade-off frontier**: GACI buys per-group validity by
+   reallocating interval width — mean width is essentially unchanged
+   (0.107 vs 0.113) while the failing group's width roughly doubles
+   (grade G: 0.114 → 0.208). Quantifying this redistribution is the
+   contribution.
 3. **Design insight**: per-group *score windows* matter, not just per-group
    α_t (pooled-window ablation: worst-group 0.869 vs 0.892). (E4)
 4. **Boundary conditions** (E5): the gap is large only when groups differ in

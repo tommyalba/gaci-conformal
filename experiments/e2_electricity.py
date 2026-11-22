@@ -64,8 +64,9 @@ def main():
     data = feats.join(y.rename("target")).dropna()
     yv = data["target"].to_numpy()
     X = data.drop(columns=["target"]).to_numpy(dtype=np.float32)
-    # standardize features
-    mu, sd = X.mean(0), X.std(0) + 1e-9
+    # standardize on train-slice statistics only (no cal/stream leakage)
+    _ntr = int(len(yv) * TRAIN_FRAC)
+    mu, sd = X[:_ntr].mean(0), X[:_ntr].std(0) + 1e-9
     X = ((X - mu) / sd).astype(np.float32)
 
     n = len(yv)
@@ -87,12 +88,12 @@ def main():
     aci = ACI(alpha=ALPHA, gamma=GAMMA, window=WINDOW).seed(y_cal, pred_cal)
     aci_res = aci.run(pred_stream, y_stream)
     cov_a = np.array([r["covered"] for r in aci_res])
-    w_a = np.array([r["halfwidth"] for r in aci_res])
+    w_a = np.array([r["hi"] - r["lo"] for r in aci_res])
 
     dt = ACI(alpha=ALPHA, gamma=GAMMA, window=WINDOW, dtaci=True).seed(y_cal, pred_cal)
     dt_res = dt.run(pred_stream, y_stream)
     cov_d = np.array([r["covered"] for r in dt_res])
-    w_d = np.array([r["halfwidth"] for r in dt_res])
+    w_d = np.array([r["hi"] - r["lo"] for r in dt_res])
     w_s = hi_s - lo_s
 
     def summ(cov, width):

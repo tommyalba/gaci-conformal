@@ -58,9 +58,10 @@ def e4_variant(df_full, max_rows):
     df, y = df.loc[mask].reset_index(drop=True), y[mask]
     groups_all = df["grade"].to_numpy()
 
-    X, _ = build_features(df)
     n = len(y)
-    n_train = int(n * TRAIN_FRAC); n_cal = int(n * CAL_FRAC)
+    n_train = int(n * TRAIN_FRAC)
+    X, _ = build_features(df, fit_rows=n_train)
+    n_cal = int(n * CAL_FRAC)
     w = ridge_fit(X[:n_train], y[:n_train])
     pred_cal = X[n_train:n_train + n_cal] @ w
     pred_stream = X[n_train + n_cal:] @ w
@@ -71,7 +72,7 @@ def e4_variant(df_full, max_rows):
     aci = ACI(alpha=e4.ALPHA, gamma=e4.GAMMA, window=e4.WINDOW).seed(y_cal, pred_cal)
     a_res = aci.run(pred_stream, y_stream)
     cov_a = np.array([r["covered"] for r in a_res])
-    w_a = np.array([r["halfwidth"] for r in a_res])
+    w_a = np.array([r["hi"] - r["lo"] for r in a_res])
 
     g_res = run_gaci(pred_cal, y_cal, g_cal, pred_stream, y_stream, g_stream,
                      pooled=False)
@@ -117,7 +118,8 @@ def e6_data():
     data = feats.join(y.rename("target")).dropna()
     yv = data["target"].to_numpy()
     X = data.drop(columns=["target"]).to_numpy(dtype=np.float32)
-    mu, sd = X.mean(0), X.std(0) + 1e-9
+    _ntr = int(len(yv) * e2.TRAIN_FRAC)
+    mu, sd = X[:_ntr].mean(0), X[:_ntr].std(0) + 1e-9
     X = ((X - mu) / sd).astype(np.float32)
     return yv, X, data.index
 
@@ -148,7 +150,7 @@ def e6_run(yv, X, idx, cal_frac):
                             e2.ALPHA, e2.GAMMA, e2.WINDOW)
         out[name] = {
             "aci_cov": np.array([r["covered"] for r in a_res]),
-            "aci_w": np.array([r["halfwidth"] for r in a_res]),
+            "aci_w": np.array([r["hi"] - r["lo"] for r in a_res]),
             "gaci_cov": np.array([r["covered"] for r in g_res]),
             "gaci_w": np.array([r["hi"] - r["lo"] for r in g_res]),
             "gaci_grp": np.array([r["group"] for r in g_res]),

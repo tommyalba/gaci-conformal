@@ -44,20 +44,22 @@ CATEGORICAL = {
 }
 
 
-def build_features(df):
+def build_features(df, fit_rows=None):
     parts = []
     Xn = df[NUMERIC].apply(pd.to_numeric, errors="coerce")
     Xn["revol_bal"] = np.log1p(Xn["revol_bal"])
-    Xn = Xn.fillna(Xn.median())
-    # standardize
-    Xn = (Xn - Xn.mean()) / Xn.std(ddof=0)
+    fit = Xn.iloc[:fit_rows] if fit_rows else Xn
+    Xn = Xn.fillna(fit.median())
+    # standardize on train-slice statistics only (no cal/stream leakage)
+    Xn = (Xn - fit.mean()) / fit.std(ddof=0)
     parts.append(Xn.to_numpy())
     names = list(Xn.columns)
 
     for col, topk in CATEGORICAL.items():
         s = df[col].astype(str).fillna("missing")
         if topk:
-            keep = s.value_counts().head(topk).index
+            src = s.iloc[:fit_rows] if fit_rows else s
+            keep = src.value_counts().head(topk).index
             s = s.where(s.isin(keep), "OTHER")
         dummies = pd.get_dummies(s, prefix=col, dtype=float)
         parts.append(dummies.to_numpy())
@@ -96,9 +98,9 @@ def main():
     mask = ~np.isnan(y)
     df, y = df.loc[mask].reset_index(drop=True), y[mask]
 
-    X, feat_names = build_features(df)
     n = len(y)
     n_train = int(n * TRAIN_FRAC)
+    X, feat_names = build_features(df, fit_rows=n_train)
     n_cal = int(n * CAL_FRAC)
     print(f"train={n_train} cal={n_cal} stream={n - n_train - n_cal} feats={X.shape[1]}", flush=True)
 
@@ -117,12 +119,12 @@ def main():
     aci = ACI(alpha=ALPHA, gamma=GAMMA, window=WINDOW).seed(y_cal, pred_cal)
     aci_res = aci.run(pred_stream, y_stream)
     cov_a = np.array([r["covered"] for r in aci_res])
-    w_a = np.array([r["halfwidth"] for r in aci_res])
+    w_a = np.array([r["hi"] - r["lo"] for r in aci_res])
 
     dt = ACI(alpha=ALPHA, gamma=GAMMA, window=WINDOW, dtaci=True).seed(y_cal, pred_cal)
     dt_res = dt.run(pred_stream, y_stream)
     cov_d = np.array([r["covered"] for r in dt_res])
-    w_d = np.array([r["halfwidth"] for r in dt_res])
+    w_d = np.array([r["hi"] - r["lo"] for r in dt_res])
 
     w_s = hi_s - lo_s
 

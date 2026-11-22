@@ -78,12 +78,12 @@ def main():
     aci = ACI(alpha=ALPHA, gamma=GAMMA, window=WINDOW).seed(ycal, pred_cal)
     aci_res = aci.run(pred_stream, ys)
     aci_cov = np.array([r["covered"] for r in aci_res])
-    aci_w = np.array([r["halfwidth"] for r in aci_res])
+    aci_w = np.array([r["hi"] - r["lo"] for r in aci_res])
 
     dtaci = ACI(alpha=ALPHA, gamma=GAMMA, window=WINDOW, dtaci=True).seed(ycal, pred_cal)
     dt_res = dtaci.run(pred_stream, ys)
     dt_cov = np.array([r["covered"] for r in dt_res])
-    dt_w = np.array([r["halfwidth"] for r in dt_res])
+    dt_w = np.array([r["hi"] - r["lo"] for r in dt_res])
 
     # --- metrics ---
     def summ(cov, width):

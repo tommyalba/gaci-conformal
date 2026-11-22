@@ -74,7 +74,7 @@ def evaluate(name, y_cal, p_cal, g_cal, y_st, p_st, g_st, alpha, gamma, window):
     aci = ACI(alpha=alpha, gamma=gamma, window=window).seed(y_cal, p_cal)
     a_res = aci.run(p_st, y_st)
     cov_a = np.array([r["covered"] for r in a_res])
-    w_a = np.array([r["halfwidth"] for r in a_res])
+    w_a = np.array([r["hi"] - r["lo"] for r in a_res])
 
     g_res = run_gaci(y_cal, p_cal, g_cal, p_st, y_st, g_st, alpha, gamma, window)
     cov_g = np.array([r["covered"] for r in g_res])
@@ -124,7 +124,8 @@ def main():
     data = feats.join(y.rename("target")).dropna()
     yv = data["target"].to_numpy()
     X = data.drop(columns=["target"]).to_numpy(dtype=np.float32)
-    mu, sd = X.mean(0), X.std(0) + 1e-9
+    _ntr = int(len(yv) * e2.TRAIN_FRAC)
+    mu, sd = X[:_ntr].mean(0), X[:_ntr].std(0) + 1e-9
     X = ((X - mu) / sd).astype(np.float32)
 
     n = len(yv)
